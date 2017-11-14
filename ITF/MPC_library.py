@@ -156,9 +156,10 @@ class EarthAndTime:
         pmxs     = [_xydeltat[jd][1] for jd in jds]
         pmys     = [_xydeltat[jd][2] for jd in jds]
 
-        self.ut1_utc_func = scipy.interpolate.interp1d(jds, ut1_utcs)
-        self.pmx_func     = scipy.interpolate.interp1d(jds, pmxs)
-        self.pmy_func     = scipy.interpolate.interp1d(jds, pmys)
+        nitems = len(jds)
+        self.ut1_utc_func = scipy.interpolate.interp1d(jds, ut1_utcs, fill_value=(ut1_utcs[0], ut1_utcs[nitems-1]), bounds_error=False )
+        self.pmx_func     = scipy.interpolate.interp1d(jds, pmxs, fill_value=(pmxs[0], pmxs[nitems-1] ), bounds_error=False )
+        self.pmy_func     = scipy.interpolate.interp1d(jds, pmys, fill_value=(pmys[0], pmys[nitems-1] ), bounds_error=False )
 
         # Get the TAI-UTC data from:
         # http://maia.usno.navy.mil/ser7/tai-utc.dat
@@ -177,13 +178,13 @@ class EarthAndTime:
                 self.tai_minus_utc_dict[jd] = tai_minus_utc, tref, coeff
 
     def pmx(self, jd_utc):
-        if jd_utc<244168:
-            self.pmx_func(2441684.5)
+        #if jd_utc<244168:
+        #    return self.pmx_func(2441684.5)
         return self.pmx_func(jd_utc)
 
     def pmy(self, jd_utc):
-        if jd_utc<2441684.5:
-            self.pmy_func(2441684.5)
+        #if jd_utc<2441684.5:
+        #    return self.pmy_func(2441684.5)
         return self.pmy_func(jd_utc)
 
     # TDT = UTC + (TAI-UTC) + 32.184 sec
@@ -191,8 +192,8 @@ class EarthAndTime:
     # TT - TDB is less than 2 milliseconds.
 
     def ut1_utc(self, jd_utc):
-        if jd_utc<2441684.5+1e-5:
-            self.ut1_utc_func(2441684.5)
+        #if jd_utc<2441684.5:
+        #    return self.ut1_utc_func(2441684.5)
         return self.ut1_utc_func(jd_utc)
 
     def tai_utc(self, jd_utc):
