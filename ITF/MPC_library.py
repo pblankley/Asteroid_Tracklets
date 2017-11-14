@@ -2,7 +2,6 @@
 import math
 import numpy as np
 import scipy
-from novas import compat as novas
 
 class Constants:
     GMsun = 2.9591220828559115e-04 
@@ -178,7 +177,7 @@ class EarthAndTime:
                 self.tai_minus_utc_dict[jd] = tai_minus_utc, tref, coeff
 
     def pmx(self, jd_utc):
-        if jd_utc<2441684.5:
+        if jd_utc<244168:
             self.pmx_func(2441684.5)
         return self.pmx_func(jd_utc)
 
@@ -192,7 +191,7 @@ class EarthAndTime:
     # TT - TDB is less than 2 milliseconds.
 
     def ut1_utc(self, jd_utc):
-        if jd_utc<2441684.5:
+        if jd_utc<2441684.5+1e-5:
             self.ut1_utc_func(2441684.5)
         return self.ut1_utc_func(jd_utc)
 
