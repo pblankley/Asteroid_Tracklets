@@ -23,7 +23,7 @@ class Elements(Structure):
     ]
 
 #lib = CDLL('/n/home01/mholman/src/kepcart/libkepcart.so')
-lib = CDLL('/Users/mholman/Dropbox/ITF/libkepcart.so')
+lib = CDLL('libkepcart.so')
     
 def keplerian(GM, state):
     """
